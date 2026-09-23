@@ -1,0 +1,110 @@
+<odoo>
+    <!-- Tree View -->
+    <record id="view_mytask_tree" model="ir.ui.view">
+        <field name="name">mytask.tree</field>
+        <field name="model">mytask</field>
+        <field name="arch" type="xml">
+            <tree  decoration-success="tstatus == 'done'" decoration-danger="tstatus == 'pending'">
+                <field name="name"/>
+                <field name="tdate"  />
+                <field name="tstatus"
+                    widget="badge"
+                    decoration-success="tstatus == 'done'"
+                    decoration-danger="tstatus == 'pending'"
+                />
+                <field name="task_info"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Form View -->
+    <record id="view_mytask_form" model="ir.ui.view">
+        <field name="name">mytask.form</field>
+        <field name="model">mytask</field>
+        <field name="arch" type="xml">
+            <form>
+            <header> 
+                    <button name="action_done" 
+                    string=" Done" 
+                    type="object" class="oe_highlight"/> 
+
+                    <button name="action_pending" 
+                    string=" Pending" 
+                    type="object" class="oe_highlight"/> 
+
+            </header>
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="tdate"/>
+                        <field name="tstatus"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+                
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="mytask_view_search" model="ir.ui.view">
+        <field name="name">mytask.search</field>
+        <field name="model">mytask</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="tdate"/>
+                <field name="tstatus"/>
+
+                <filter name="pending" 
+                    string="Pending" 
+                    domain="[('tstatus', '=', 'pending')]"
+                    />
+              
+                <filter name="done" 
+                    string="Done" 
+                    domain="[('tstatus', '=', 'done')]" 
+                />
+                <separator/>
+
+                <filter name="active" 
+                    string="Active" 
+                    domain="[('active', '=', True)]" 
+                    />
+
+                <filter name="archived" 
+                    string="Archived" 
+                    domain="[('active', '=', False)]" 
+                    />
+
+                <separator/> 
+
+                <filter name="group_by_status" 
+                    string="Status" 
+                    context="{'group_by': 'tstatus'}" 
+                    />
+
+                <filter name="group_by_date" 
+                        string="Task date" 
+                        context="{'group_by': 'tdate'}" 
+                />
+
+            </search>
+        </field>
+    </record>
+
+
+    <record id="mytask_action" model="ir.actions.act_window">
+        <field name="name">My Tasks</field>
+        <field name="res_model">mytask</field>
+        <field name="view_mode">tree,form</field>  
+    </record>
+    <menuitem id="mytask_menu_item" name="My Tasks" action="mytask_action"/>    
+</odoo>
