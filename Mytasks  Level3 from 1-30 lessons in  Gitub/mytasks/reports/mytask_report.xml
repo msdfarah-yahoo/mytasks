@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- تعريف التقرير -->
+    <record id="action_mytask_report" model="ir.actions.report">
+
+        <field name="name">My Tasks Report</field>
+        <field name="model">mytask</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">mytasks.mytask_report</field>
+
+        <field name="binding_model_id" ref="model_mytask"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+    <!-- قالب التقرير -->
+    <template id="mytask_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="direction: rtl; text-align: right;">
+                    <h2>My Tasks</h2>
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Task</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+
+                        <t t-foreach="docs" t-as="task">
+
+                            <tr>
+                                <td><span t-field="task.name"/></td>
+                                <td><span t-field="task.tdate"/></td>
+                                <td><span t-field="task.tstatus"/></td>
+                            </tr>
+
+                        </t>
+
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>
